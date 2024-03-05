@@ -2,9 +2,9 @@ name: Java CI with Maven vizhu
 
 on:
   push:
-    branches: [ develop-2 ]
+    branches: [ develop, main ]
   pull_request:
-    branches: [ develop-2 ]
+    branches: [ develop, main ]
 
 jobs:
   build:
