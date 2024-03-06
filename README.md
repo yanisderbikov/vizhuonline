@@ -10,6 +10,5 @@ Backend продукта [vizhu.online](https://vizhu.online)
 
 ## Запуск приложения
 ```
-docker build -t myapp:latest .
-docker run -p 8080:8081 -p 5030:5030 myapp:latest
+docker-compose up --build
 ```
