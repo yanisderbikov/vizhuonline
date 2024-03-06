@@ -1,0 +1,13 @@
+version: '3.8'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://host.docker.internal:5430/vizhuBD # Обратите внимание на адрес и порт
+      SPRING_DATASOURCE_USERNAME: yander
+      SPRING_DATASOURCE_PASSWORD: yander_login
+      SPRING_JPA_GENERATE_DDL: true
