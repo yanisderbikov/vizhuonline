@@ -1,23 +1,15 @@
 # Название проекта
 
-Краткое описание вашего проекта.
+Backend продукта [vizhu.online](https://vizhu.online)
 
 ## Предварительные требования
 
-- [Java JDK](https://www.oracle.com/java/technologies/javase-jdk17-downloads.html) (рекомендуется версия 17)
-- [Maven](https://maven.apache.org/download.cgi) (для сборки проекта)
 - [Docker](https://www.docker.com/products/docker-desktop) (для создания и запуска контейнеров)
+- Postgre SQL port:5430, name: vizhuBD
 
-## Сборка проекта
-
-Чтобы собрать JAR файл вашего приложения, выполните следующую команду в терминале:
-
-```bash
-mvn clean install
-```
 
 ## Запуск приложения
 ```
 docker build -t myapp:latest .
-docker run -p 8080:8080 myapp:latest
+docker run -p 8080:8081 myapp:latest
 ```
