@@ -1,10 +1,12 @@
 package com.vizhu.vizhu.repo;
 
-import com.vizhu.vizhu.model.AppUser;
+import com.vizhu.vizhu.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.UUID;
+
 @Repository
-public interface UserRepository extends JpaRepository<AppUser, Long> {
+public interface UserRepository extends JpaRepository<User, UUID> {
 
 }

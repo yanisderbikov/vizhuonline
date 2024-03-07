@@ -3,9 +3,12 @@ package com.vizhu.vizhu.model;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
+@ToString
 @Getter
 @Setter
 @EqualsAndHashCode(exclude = "id")
@@ -14,10 +17,12 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Entity
 @Table(name = "app_user")
-public class AppUser {
+public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @Column(updatable = false, nullable = false)
+    private UUID id;
     private String name;
     private String password;
     @CreationTimestamp
@@ -25,3 +30,4 @@ public class AppUser {
 
     // Конструкторы, геттеры и сеттеры
 }
+
