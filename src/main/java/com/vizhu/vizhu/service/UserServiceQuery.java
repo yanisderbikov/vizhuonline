@@ -2,7 +2,7 @@ package com.vizhu.vizhu.service;
 
 import com.vizhu.vizhu.dto.UserDto;
 import com.vizhu.vizhu.exceptions.UserNotFoundException;
-import com.vizhu.vizhu.model.User;
+import com.vizhu.vizhu.model.AppUser;
 import com.vizhu.vizhu.repo.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,10 +19,10 @@ public class UserServiceQuery {
     private final PasswordEncoder passwordEncoder;
 
     public List<UserDto> getAllUsers() {
-        List<User> users = userRepository.findAll();
-        return users.stream()
+        List<AppUser> appUsers = userRepository.findAll();
+        return appUsers.stream()
                 .map(user -> new UserDto(
-                        user.getName(),
+                        user.getUsername(),
                         user.getPassword())
                 )
                 .collect(Collectors.toList());
@@ -30,7 +30,7 @@ public class UserServiceQuery {
     public UserDto getUserById(UUID id) {
         return userRepository.findById(id)
                 .map(user -> new UserDto(
-                        user.getName(),
+                        user.getUsername(),
                         passwordEncoder.encode(user.getPassword()))
                 )
                 .orElseThrow(() -> new UserNotFoundException("User not found with id: " + id));

@@ -1,7 +1,7 @@
 package com.vizhu.vizhu.controller;
 
 import com.vizhu.vizhu.dto.UserDto;
-import com.vizhu.vizhu.model.User;
+import com.vizhu.vizhu.model.AppUser;
 import com.vizhu.vizhu.service.UserServiceCommand;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -25,21 +25,21 @@ public class UserCommandController {
 
     @PostMapping
     public ResponseEntity<Void> createUser(@RequestBody UserDto userDto) {
-        User user = User.builder()
-                .name(userDto.getName())
+        AppUser appUser = AppUser.builder()
+                .username(userDto.getName())
                 .password(passwordEncoder.encode(userDto.getPassword()))
                 .build();
-        userService.createUser(user);
+        userService.createUser(appUser);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Void> updateUser(@PathVariable UUID id, @RequestBody UserDto userDto) {
-        User user = User.builder()
-                .name(userDto.getName())
+        AppUser appUser = AppUser.builder()
+                .username(userDto.getName())
                 .password(passwordEncoder.encode(userDto.getPassword()))
                 .build();
-        boolean isUpdated = userService.updateUser(id, user);
+        boolean isUpdated = userService.updateUser(id, appUser);
         if (isUpdated) {
             return new ResponseEntity<>(HttpStatus.OK);
         } else {

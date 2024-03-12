@@ -1,6 +1,6 @@
 package com.vizhu.vizhu.service;
 
-import com.vizhu.vizhu.model.User;
+import com.vizhu.vizhu.model.AppUser;
 import com.vizhu.vizhu.repo.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -17,20 +17,20 @@ import java.util.UUID;
 public class UserServiceCommand {
     private final UserRepository userRepository;
 
-    public void createUser(User user) {
-        log.debug(user);
-        userRepository.save(user);
+    public void createUser(AppUser appUser) {
+        log.debug(appUser);
+        userRepository.save(appUser);
     }
 
-    public boolean updateUser(UUID id, User userUpdate) {
-        Optional<User> userOptional = userRepository.findById(id);
+    public boolean updateUser(UUID id, AppUser appUserUpdate) {
+        Optional<AppUser> userOptional = userRepository.findById(id);
         if (userOptional.isPresent()) {
-            User user = userOptional.get();
-            log.debug("User before update: " + user);
-            user.setName(userUpdate.getName());
-            user.setPassword(userUpdate.getPassword());
-            userRepository.save(user);
-            log.debug("User after update: " + user);
+            AppUser appUser = userOptional.get();
+            log.debug("User before update: " + appUser);
+            appUser.setUsername(appUserUpdate.getUsername());
+            appUser.setPassword(appUserUpdate.getPassword());
+            userRepository.save(appUser);
+            log.debug("User after update: " + appUser);
             return true;
         } else {
             return false;

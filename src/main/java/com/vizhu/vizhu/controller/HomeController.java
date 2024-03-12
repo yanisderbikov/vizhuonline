@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Log4j2
 public class HomeController {
     @GetMapping()
-    public String homepage(){
+    public String homepage() {
         log.debug(this.getClass());
         return "redirect:https://vizhu.online";
     }

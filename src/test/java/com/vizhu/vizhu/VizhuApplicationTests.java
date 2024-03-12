@@ -1,6 +1,6 @@
 package com.vizhu.vizhu;
 
-import com.vizhu.vizhu.model.User;
+import com.vizhu.vizhu.model.AppUser;
 import com.vizhu.vizhu.service.UserServiceCommand;
 import com.vizhu.vizhu.service.UserServiceQuery;
 import org.junit.jupiter.api.Test;
@@ -29,8 +29,8 @@ class VizhuApplicationTests {
     void addPerson(){
         var random = Math.random();
         userServiceCommand.createUser(
-                User.builder()
-                        .name(String.format("yan %s", random))
+                AppUser.builder()
+                        .username(String.format("yan %s", random))
                         .password(String.format("password %s", random))
                         .build()
         );
