@@ -5,7 +5,6 @@ import com.vizhu.vizhu.exceptions.UserNotFoundException;
 import com.vizhu.vizhu.service.UserServiceQuery;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
-import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,7 +25,6 @@ import java.util.UUID;
 @RequestMapping("/api/users")
 @Log4j
 public class UserQueryController {
-
     private final UserServiceQuery userService;
 
     @GetMapping()

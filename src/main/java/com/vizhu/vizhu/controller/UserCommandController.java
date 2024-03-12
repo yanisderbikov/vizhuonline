@@ -1,10 +1,12 @@
 package com.vizhu.vizhu.controller;
 
 import com.vizhu.vizhu.dto.UserDto;
+import com.vizhu.vizhu.model.User;
 import com.vizhu.vizhu.service.UserServiceCommand;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -19,21 +21,29 @@ import java.util.UUID;
 public class UserCommandController {
 
     private final UserServiceCommand userService;
+    private final PasswordEncoder passwordEncoder;
 
     @PostMapping
     public ResponseEntity<Void> createUser(@RequestBody UserDto userDto) {
-        userService.createUser(userDto);
+        User user = User.builder()
+                .name(userDto.getName())
+                .password(passwordEncoder.encode(userDto.getPassword()))
+                .build();
+        userService.createUser(user);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Void> updateUser(@PathVariable UUID id, @RequestBody UserDto userDto) {
-        boolean isUpdated = userService.updateUser(id, userDto);
+        User user = User.builder()
+                .name(userDto.getName())
+                .password(passwordEncoder.encode(userDto.getPassword()))
+                .build();
+        boolean isUpdated = userService.updateUser(id, user);
         if (isUpdated) {
             return new ResponseEntity<>(HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-
 }
