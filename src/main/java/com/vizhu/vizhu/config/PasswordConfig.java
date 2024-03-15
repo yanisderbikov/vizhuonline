@@ -7,10 +7,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @Log4j
-public class SecurityConfig {
+public class PasswordConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
+        // TODO: 12/03/24 Заинжектить реализацию
         return new PasswordEncoder() {
             @Override
             public String encode(CharSequence rawPassword) {

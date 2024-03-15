@@ -23,7 +23,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         var appUser = userRepository
-                .findByUsername(username)
+                .findByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
         var role = List.of(new SimpleGrantedAuthority("USER"));
         return new User(appUser.getUsername(), appUser.getPassword(), role);

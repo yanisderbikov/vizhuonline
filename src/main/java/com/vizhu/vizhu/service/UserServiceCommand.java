@@ -11,6 +11,9 @@ import java.util.UUID;
 
 // TODO: 07/03/24 Реализовать хэширование пароля
 
+/**
+ * Командный контроллер (для создания и обновления пользователя)
+ */
 @Service
 @AllArgsConstructor
 @Log4j
@@ -35,5 +38,8 @@ public class UserServiceCommand {
         } else {
             return false;
         }
+    }
+    public AppUser save(AppUser appUser){
+        return userRepository.save(appUser);
     }
 }

@@ -11,6 +11,8 @@ Backend продукта [vizhu.online](https://vizhu.online)
   - name: vizhuBD 
   - username: yander
   - password: yander_login
+- Установка секретного ключа командой 
+```node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"``` вставкой в поле [token.secret.key](src/main/resources/application.properties)
 
 ## Сборка проекта 
 

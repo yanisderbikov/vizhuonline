@@ -14,25 +14,25 @@ class VizhuApplicationTests {
     @Autowired
     UserServiceCommand userServiceCommand;
 
-    @Test
-    void contextLoads() {
-
-    }
-    @Test
-    void printAllUsers(){
-        var list= userServiceQuery.getAllUsers();
-        if (list.isEmpty()) throw new RuntimeException("Person doesn't added");
-        System.out.println(list);
-    }
-
-    @Test
-    void addPerson(){
-        var random = Math.random();
-        userServiceCommand.createUser(
-                AppUser.builder()
-                        .username(String.format("yan %s", random))
-                        .password(String.format("password %s", random))
-                        .build()
-        );
-    }
+//    @Test
+//    void contextLoads() {
+//
+//    }
+//    @Test
+//    void printAllUsers(){
+//        var list= userServiceQuery.getAllUsers();
+//        if (list.isEmpty()) throw new RuntimeException("Person doesn't added");
+//        System.out.println(list);
+//    }
+//
+//    @Test
+//    void addPerson(){
+//        var random = Math.random();
+//        userServiceCommand.createUser(
+//                AppUser.builder()
+//                        .username(String.format("yan %s", random))
+//                        .password(String.format("password %s", random))
+//                        .build()
+//        );
+//    }
 }

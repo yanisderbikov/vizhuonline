@@ -5,9 +5,16 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "8081:8081"
+      - "8081:8080"
+    container_name: vizhu-app
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://host.docker.internal:5430/vizhuBD # Обратите внимание на адрес и порт
       SPRING_DATASOURCE_USERNAME: yander
       SPRING_DATASOURCE_PASSWORD: yander_login
       SPRING_JPA_GENERATE_DDL: true
+      SERVER_PORT: 8080
+      JWT_TOKEN_SECRET_KEY: "dd15c56b94ef0d041f62137233ba0057c4aff968c21d21ea099ae40607f352a7"
+    deploy:
+      resources:
+        limits:
+          memory: 250M
