@@ -17,13 +17,13 @@ public class TestController {
     }
 
     @GetMapping("/users")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public String usersEndPoint() {
         return "ONLY users can see this";
     }
 
     @GetMapping("/admins")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String adminsEndPoint() {
         return "ONLY admins can see this";
     }
