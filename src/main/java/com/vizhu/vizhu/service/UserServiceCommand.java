@@ -9,8 +9,6 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 import java.util.UUID;
 
-// TODO: 07/03/24 Реализовать хэширование пароля
-
 /**
  * Командный контроллер (для создания и обновления пользователя)
  */

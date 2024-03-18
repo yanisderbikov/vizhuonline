@@ -20,11 +20,11 @@ import io.jsonwebtoken.security.Keys;
 @Service
 public class JwtService {
 
-//    @Value("${token.secret.key}")
-    String jwtSecretKey = "dd15c56b94ef0d041f62137233ba0057c4aff968c21d21ea099ae40607f352a7";
+    @Value("${token.secret.key}")
+    String jwtSecretKey;
 
-//    @Value("${token.expiration.ms}")
-    Long jwtExpirationMs = 3600000L;
+    @Value("${token.expiration.ms}")
+    Long jwtExpirationMs;
 
     @PostConstruct
     public void init(){

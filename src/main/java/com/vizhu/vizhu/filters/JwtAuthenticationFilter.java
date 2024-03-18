@@ -2,15 +2,13 @@ package com.vizhu.vizhu.filters;
 
 import com.vizhu.vizhu.service.CustomUserDetailsService;
 import com.vizhu.vizhu.service.JwtService;
-import com.vizhu.vizhu.service.UserServiceQuery;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContext;
@@ -24,7 +22,7 @@ import java.io.IOException;
 
 @Component
 @AllArgsConstructor
-@Slf4j
+@Log4j
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtService jwtService;
     private final CustomUserDetailsService userDetailsService;
@@ -41,12 +39,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
         jwt = authHeader.substring(7);
-        log.debug("JWT - {}", jwt.toString());
+        log.debug("JWT - " + jwt);
         userEmail = jwtService.extractUserName(jwt);
         if (StringUtils.isNoneEmpty(userEmail) && SecurityContextHolder.getContext().getAuthentication() == null){
             UserDetails userDetails = userDetailsService.loadUserByUsername(userEmail);
             if (jwtService.isTokenValid(jwt, userDetails)){
-                log.debug("User = {}", userDetails);
+                log.debug("User = " + userDetails);
                 SecurityContext context = SecurityContextHolder.createEmptyContext();
                 UsernamePasswordAuthenticationToken authToken =
                         new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
