@@ -26,7 +26,6 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .findByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
         var role = List.of(new SimpleGrantedAuthority(appUser.getRole().name()));
-        log.debug(String.format("user : %s", appUser));
         return new User(appUser.getUsername(), appUser.getPassword(), role);
     }
 }

@@ -1,43 +1,40 @@
 package com.vizhu.vizhu.service;
 
-import com.vizhu.vizhu.model.AppUser;
+import com.vizhu.vizhu.dto.SignUpRequest;
+import com.vizhu.vizhu.dto.UserDtoResponse;
+import com.vizhu.vizhu.exceptions.domain.UserNotFoundException;
+import com.vizhu.vizhu.model.User;
 import com.vizhu.vizhu.repo.UserRepository;
 import lombok.AllArgsConstructor;
-import lombok.extern.log4j.Log4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-import java.util.UUID;
-
-/**
- * Командный контроллер (для создания и обновления пользователя)
- */
+/** Командный контроллер (для создания и обновления пользователя) */
 @Service
 @AllArgsConstructor
-@Log4j
+@Transactional
 public class UserServiceCommand {
     private final UserRepository userRepository;
 
-    public void createUser(AppUser appUser) {
-        log.debug(appUser);
-        userRepository.save(appUser);
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public UserDtoResponse updateUser(SignUpRequest update) {
+        var user =
+            userRepository
+                .findByEmail(update.getEmail())
+                .orElseThrow(
+                    () -> new UserNotFoundException("User not found with email: " + update.getEmail()));
+
+        user.setFirstName(update.getFirstName());
+        user.setLastName(update.getLastName());
+        user.setRole(user.getRole());
+        user.setEmail(update.getEmail());
+        user.setPassword(update.getPassword());
+        userRepository.save(user);
+        return new UserDtoResponse(user.getFirstName(), user.getLastName(), user.getEmail());
     }
 
-    public boolean updateUser(UUID id, AppUser appUserUpdate) {
-        Optional<AppUser> userOptional = userRepository.findById(id);
-        if (userOptional.isPresent()) {
-            AppUser appUser = userOptional.get();
-            log.debug("User before update: " + appUser);
-            appUser.setUsername(appUserUpdate.getUsername());
-            appUser.setPassword(appUserUpdate.getPassword());
-            userRepository.save(appUser);
-            log.debug("User after update: " + appUser);
-            return true;
-        } else {
-            return false;
-        }
-    }
-    public AppUser save(AppUser appUser){
-        return userRepository.save(appUser);
+    public User save(User user) {
+        return userRepository.save(user);
     }
 }

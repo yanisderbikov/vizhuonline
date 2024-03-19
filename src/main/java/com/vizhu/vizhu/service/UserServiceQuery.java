@@ -1,41 +1,36 @@
 package com.vizhu.vizhu.service;
 
-import com.vizhu.vizhu.dto.UserDto;
-import com.vizhu.vizhu.exceptions.UserNotFoundException;
-import com.vizhu.vizhu.model.AppUser;
+import com.vizhu.vizhu.dto.UserDtoResponse;
+import com.vizhu.vizhu.exceptions.domain.UserNotFoundException;
+import com.vizhu.vizhu.model.User;
 import com.vizhu.vizhu.repo.UserRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
-/**
- * Запросный контроллер (для получения информации о пользователе)
- */
+/** Запросный контроллер (для получения информации о пользователе) */
 @Service
 @AllArgsConstructor
+@Transactional(readOnly = true)
 public class UserServiceQuery {
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
 
-    public List<UserDto> getAllUsers() {
-        List<AppUser> appUsers = userRepository.findAll();
-        return appUsers.stream()
-                .map(user -> new UserDto(
-                        user.getUsername(),
-                        user.getPassword())
-                )
-                .collect(Collectors.toList());
+    public User findByEmail(String email) {
+        return userRepository
+            .findByEmail(email)
+            .orElseThrow(() -> new UserNotFoundException("User not found with email: " + email));
     }
-    public UserDto getUserById(UUID id) {
-        return userRepository.findById(id)
-                .map(user -> new UserDto(
-                        user.getUsername(),
-                        passwordEncoder.encode(user.getPassword()))
-                )
-                .orElseThrow(() -> new UserNotFoundException("User not found with id: " + id));
+
+    public UserDtoResponse getUserById(UUID id) throws UserNotFoundException{
+        User user = requireById(id);
+        return new UserDtoResponse(user.getFirstName(), user.getLastName(), user.getEmail());
+    }
+
+    public User requireById(UUID id) {
+        return userRepository
+            .findById(id)
+            .orElseThrow(() -> new UserNotFoundException("User not found with id: " + id));
     }
 }

@@ -1,17 +1,13 @@
 package com.vizhu.vizhu.dto;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SignUpRequest {
-    String firstName;
-    String lastName;
-    String email;
-    String password;
+@Getter
+public class SignUpRequest extends SignInRequest{
+    private String firstName;
+    private String lastName;
 }

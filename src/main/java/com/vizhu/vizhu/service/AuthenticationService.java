@@ -3,9 +3,8 @@ package com.vizhu.vizhu.service;
 import com.vizhu.vizhu.dto.JwtAuthenticationResponse;
 import com.vizhu.vizhu.dto.SignInRequest;
 import com.vizhu.vizhu.dto.SignUpRequest;
-import com.vizhu.vizhu.model.AppUser;
+import com.vizhu.vizhu.model.User;
 import com.vizhu.vizhu.model.Role;
-import com.vizhu.vizhu.repo.UserRepository;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,14 +16,14 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AuthenticationService {
 
-    private final UserRepository userRepository;
-    private final UserServiceCommand userService;
+    private final UserServiceCommand userServiceCommand;
+    private final UserServiceQuery userServiceQuery;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
     public JwtAuthenticationResponse signup(SignUpRequest request) {
-        var user = AppUser
+        var user = User
                 .builder()
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
@@ -33,7 +32,7 @@ public class AuthenticationService {
                 .role(Role.ROLE_USER)
                 .build();
 
-        user = userService.save(user);
+        user = userServiceCommand.save(user);
         var jwt = jwtService.generateToken(user);
         return JwtAuthenticationResponse.builder().token(jwt).build();
     }
@@ -42,8 +41,7 @@ public class AuthenticationService {
     public JwtAuthenticationResponse signin(SignInRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
-        var user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new IllegalArgumentException("Invalid email or password."));
+        var user = userServiceQuery.findByEmail(request.getEmail());
         var jwt = jwtService.generateToken(user);
         return JwtAuthenticationResponse.builder().token(jwt).build();
     }

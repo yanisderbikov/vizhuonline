@@ -1,5 +1,8 @@
 package com.vizhu.vizhu.exceptions;
 
+import com.vizhu.vizhu.exceptions.domain.UserNotFoundException;
+import com.vizhu.vizhu.exceptions.infrastructure.DatabaseException;
+import com.vizhu.vizhu.exceptions.infrastructure.NetworkException;
 import lombok.extern.log4j.Log4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

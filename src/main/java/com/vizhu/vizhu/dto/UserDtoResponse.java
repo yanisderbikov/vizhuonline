@@ -2,14 +2,15 @@ package com.vizhu.vizhu.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 @Getter
 @Setter
-@ToString
 @AllArgsConstructor
-public class UserDto {
-    private String name;
-    private String password;
+@NoArgsConstructor
+public class UserDtoResponse {
+    String firstName;
+    String lastName;
+    String email;
 }
