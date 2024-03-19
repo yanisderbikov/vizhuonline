@@ -6,6 +6,7 @@ Backend продукта [vizhu.online](https://vizhu.online)
 
 - [Docker](https://www.docker.com/products/docker-desktop) 
 (для создания и запуска контейнеров)
+- Docker Compose
 - Postgre SQL 
   - port: localhost:5430 
   - name: vizhuBD 
@@ -13,6 +14,7 @@ Backend продукта [vizhu.online](https://vizhu.online)
   - password: yander_login
 - Установка секретного ключа командой 
 ```node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"``` вставкой в поле [token.secret.key](src/main/resources/application.properties)
+- 
 
 ## Сборка проекта 
 
@@ -22,6 +24,7 @@ Backend продукта [vizhu.online](https://vizhu.online)
 3. запустить приложение
 
 ## Запуск приложения
-```
-docker-compose up --build
-```
+1. Запустить контейнер PostgreSQL, если он не запущен.  
+2. Описать переменные окружения в том-же месте 
+где находится docker-compose. ([пример для файла .env](.env.dist))
+3. Запустить docker compose командой ```docker-compose up --build ```
