@@ -8,6 +8,7 @@ public class NetworkException extends BaseInfrastructureException {
     public NetworkException(String message) {
         super(message);
     }
+
     public NetworkException(String message, Throwable cause) {
         super(message, cause);
     }

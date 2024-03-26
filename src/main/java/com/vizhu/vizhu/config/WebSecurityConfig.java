@@ -44,18 +44,17 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         http
-                .csrf(AbstractHttpConfigurer::disable)
-                .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                )
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.POST, "/api/v1/signup", "/api/v1/signin").permitAll() // no sec
-                        .requestMatchers(HttpMethod.GET, "/api/v1/test/**").permitAll()
-                        .anyRequest().authenticated()
-                )
-                .authenticationProvider(authenticationProvider())
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-
+             .csrf(AbstractHttpConfigurer::disable)
+             .sessionManagement(session -> session
+                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+             )
+             .authorizeHttpRequests(auth -> auth
+                     .requestMatchers(HttpMethod.POST, "/api/v1/signup", "/api/v1/signin").permitAll()
+                     .requestMatchers(HttpMethod.GET, "/api/v1/test/**").permitAll()
+                     .anyRequest().authenticated()
+             )
+             .authenticationProvider(authenticationProvider())
+             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 }

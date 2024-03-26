@@ -10,10 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
-/**
- * Запросный контроллер (для получения информации о пользователе)
- */
-
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/v1")
