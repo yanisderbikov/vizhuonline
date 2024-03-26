@@ -1,6 +1,6 @@
 package com.vizhu.vizhu.service;
 
-import com.vizhu.vizhu.repo.UserRepository;
+import com.vizhu.vizhu.repo.jpa.ClientRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -17,15 +17,18 @@ import java.util.List;
 @AllArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
 
-    private UserRepository userRepository;
+    private ClientRepository clientRepository;
 
     @Override
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        var appUser = userRepository
-                .findByEmail(username)
+        var user = clientRepository
+                .findByLogin(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
-        var role = List.of(new SimpleGrantedAuthority(appUser.getRole().name()));
-        return new User(appUser.getUsername(), appUser.getPassword(), role);
+        var role = List.of(new SimpleGrantedAuthority("ROLE_USER"));
+        if (user.getLogin().contains("admin")) {
+            role.add(new SimpleGrantedAuthority("ROLE_ADMIN")); // TODO: 22/03/24 delete for prod
+        }
+        return new User(user.getUsername(), user.getPassword(), role);
     }
 }

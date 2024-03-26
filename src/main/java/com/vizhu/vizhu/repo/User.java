@@ -1,44 +1,34 @@
-package com.vizhu.vizhu.model;
+package com.vizhu.vizhu.repo;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.time.LocalDateTime;
 import java.util.*;
 
-@ToString
 @Getter
 @Setter
-@EqualsAndHashCode(exclude = "id")
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-@Entity
-@Table(name = "`user`")
-public class User implements UserDetails {
+@EqualsAndHashCode(callSuper = true)
+@MappedSuperclass // для того чтобы могли унаследоваться другие классы
+public abstract class User extends TimestampableEntity implements UserDetails {
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     @Column(updatable = false, nullable = false)
     private UUID id;
+
     private String firstName;
-    private String lastName;
+
     @Column(unique = true, nullable = false)
-    private String email;
+    private String login;
+
     private String password;
-    @CreationTimestamp
-    private LocalDateTime createdAt;
-    @Enumerated(EnumType.STRING)
-    private Role role;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.name()));
+        return List.of(); // Изменено для абстракции. Детали ролей могут быть определены в подклассах
     }
 
     @Override
@@ -48,7 +38,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return email;
+        return login;
     }
 
     @Override
@@ -70,5 +60,4 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-
 }

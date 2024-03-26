@@ -3,8 +3,7 @@ package com.vizhu.vizhu.service;
 import com.vizhu.vizhu.dto.JwtAuthenticationResponse;
 import com.vizhu.vizhu.dto.SignInRequest;
 import com.vizhu.vizhu.dto.SignUpRequest;
-import com.vizhu.vizhu.model.User;
-import com.vizhu.vizhu.model.Role;
+import com.vizhu.vizhu.repo.Client;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,16 +22,12 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
 
     public JwtAuthenticationResponse signup(SignUpRequest request) {
-        var user = User
-                .builder()
-                .firstName(request.getFirstName())
-                .lastName(request.getLastName())
-                .email(request.getEmail())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .role(Role.ROLE_USER)
-                .build();
+        var user = new Client();
+        user.setFirstName(request.getFirstName());
+        user.setLogin(request.getLogin());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
 
-        user = userServiceCommand.save(user);
+        userServiceCommand.save(user);
         var jwt = jwtService.generateToken(user);
         return JwtAuthenticationResponse.builder().token(jwt).build();
     }
@@ -40,8 +35,8 @@ public class AuthenticationService {
 
     public JwtAuthenticationResponse signin(SignInRequest request) {
         authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
-        var user = userServiceQuery.findByEmail(request.getEmail());
+                new UsernamePasswordAuthenticationToken(request.getLogin(), request.getPassword()));
+        var user = userServiceQuery.findByLogin(request.getLogin());
         var jwt = jwtService.generateToken(user);
         return JwtAuthenticationResponse.builder().token(jwt).build();
     }
