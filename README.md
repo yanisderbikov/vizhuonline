@@ -14,7 +14,7 @@ Backend продукта [vizhu.online](https://vizhu.online)
   - password: yander_login
 - Установка секретного ключа командой 
 ```node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"``` вставкой в поле [token.secret.key](src/main/resources/application.properties) либо любой другой секретный ключ
-- 
+
 
 ## Сборка проекта 
 
